@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
-    public GameObject jam;
+    public GameObject[] jam;
     public Text ingridientsCounter;
     public Text debugText;
 
