@@ -5,13 +5,11 @@ public class Character : MonoBehaviour
 {
     public float force = 200f; 
 
-    private Vector3 pos;
     private Vector3 rot = new Vector3(0, 0, 0);
     private Rigidbody rb;   
 
     void Awake()
     {
-        pos = transform.position;
         rb = GetComponent<Rigidbody>();
     }
 
