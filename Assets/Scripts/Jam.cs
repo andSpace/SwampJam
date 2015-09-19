@@ -3,9 +3,8 @@ using System.Collections;
 
 public class Jam : MonoBehaviour {
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter()
     {
-        Debug.Log("this happens");
         GameManager.instance.CollectJam();
         Destroy(gameObject);
     }
