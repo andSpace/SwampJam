@@ -5,17 +5,17 @@ using System.Text;
 
 namespace Assets.Scripts
 {
-    class Helpers
+    public static class Helpers
     {
-        static void ToPolar(double x, double y, out double r, out double q)
+        static void ToPolar(double x, double y, out float r, out float q)
         {
-            r = 0;
-            q = 0;
+            r = (float)Math.Sqrt((x * x) + (y * y));
+            q = (float)Math.Atan2(y,  x);
         }
-        static void ToCartesian(double x, double y, out double r, out double q)
+        static void ToCartesian(float r, float q, out float x, out float y)
         {
-            r = 0;
-            q = 0;
+            x = 0;
+            y = 0;
         }
     }
 }
