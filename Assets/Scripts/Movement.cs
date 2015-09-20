@@ -6,7 +6,6 @@ public class Movement : MonoBehaviour
 {
     public Rigidbody rb;
     public float thrust = 38.0f;
-    //public float speed = 1.0f;
     public float maxSpeed = 80.0f;
     public float rotationSpeed = 4.0f;
     public Camera Bob;
@@ -19,16 +18,20 @@ public class Movement : MonoBehaviour
     public int currentBoostAmount = 0;
 
 
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
+    }
+
+    void Start()
+    {
+        GameManager.instance.SetBoostMax(boostCapacity);
     }
 
     void Update()
     {
         Vector2 controlVector = new Vector2(thrust * Input.GetAxis("Horizontal"), thrust * Input.GetAxis("Vertical"));
-        if (currentBoostAmount < boostCapacity) currentBoostAmount++;
-        Debug.Log(currentBoostAmount);      
+
 
         if (controlVector.magnitude > thrust)
         {
@@ -39,14 +42,27 @@ public class Movement : MonoBehaviour
         rb.AddForce(transform.forward * controlVector.y);
         rb.AddForce(transform.right * controlVector.x);
 
-
         // Rotation
         transform.Rotate(Vector3.down, Input.GetAxis("RotateLR") * rotationSpeed);
 
         // Boost
+        CheckBoost();
+    }
+
+    private void CheckBoost()
+    {
+        if (currentBoostAmount < boostCapacity)
+        {
+            currentBoostAmount++;
+            GameManager.instance.SetBoost(currentBoostAmount);
+        }
+
+
         if (Input.GetButtonDown("Boost") && currentBoostAmount == boostCapacity)
         {
             currentBoostAmount = 0;
+            GameManager.instance.SetBoost(currentBoostAmount);
+
             rb.velocity = Vector3.zero;
             rb.AddForce(transform.forward * 6000);
             maxSpeed = 180.0f;
@@ -59,11 +75,9 @@ public class Movement : MonoBehaviour
         }
 
         // Fov boost lol
-        if(fovBoost)
+        if (fovBoost)
         {
-            
-            
-            if(intendedFov > fov)
+            if (intendedFov > fov)
             {
                 fovSpeed = fovSpeed + 0.5f;
                 fov = fov + fovSpeed;
@@ -74,20 +88,16 @@ public class Movement : MonoBehaviour
                 }
 
             }
-            else if(intendedFov < fov)
+            else if (intendedFov < fov)
             {
                 fovSpeed = fovSpeed - 0.3f;
                 fov = fov + fovSpeed;
-                if ( intendedFov >= fov)
+                if (intendedFov >= fov)
                 {
                     fov = intendedFov;
                     fovBoost = false;
                 }
             }
-
-            
-
-           
         }
         Bob.fieldOfView = fov;
 
@@ -106,8 +116,6 @@ public class Movement : MonoBehaviour
             {
                 maxSpeed = 80.0f;
             }
-
-            
-        }      
+        }
     }
 }

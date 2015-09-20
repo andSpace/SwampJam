@@ -9,13 +9,15 @@ public class GameManager : MonoBehaviour {
     public Text ingridientsCounter;
     public Text debugText;
     public Text endScreen;
+    public UIFill boostBar;
 
     public int health;
     public int ingridientsTotal;
     public int level;
 
+    private int boostMax = 0;
     private int jamsObtained = 0;
-    
+
 	void Awake()
     {
         if (instance == null)
@@ -33,6 +35,22 @@ public class GameManager : MonoBehaviour {
         ingridientsCounter.text = jamsObtained + "/" + ingridientsTotal;
         CheckState();
         DebugText();
+    }
+
+
+    public void SetBoost(int val) {
+        if (val == 0)
+        {
+            boostBar.SetFill(0);
+        }
+        else
+        {
+            boostBar.SetFill(val / (float)boostMax);
+        }
+    }
+    public void SetBoostMax(int val) 
+    { 
+        boostMax = val;
     }
 
     private void CheckState()
@@ -66,4 +84,5 @@ public class GameManager : MonoBehaviour {
         System.Environment.NewLine,
         jamsObtained);
     }
+
 }
