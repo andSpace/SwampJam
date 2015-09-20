@@ -1,22 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-
+using System;
 
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
     public GameObject[] jam;
     public Text ingridientsCounter;
     public Text debugText;
+    public Text endScreen;
 
     public int health;
     public int ingridientsTotal;
     public int level;
 
-
     private int jamsObtained = 0;
-
-
+    
 	void Awake()
     {
         if (instance == null)
@@ -32,7 +31,24 @@ public class GameManager : MonoBehaviour {
     {
         jamsObtained++;
         ingridientsCounter.text = jamsObtained + "/" + ingridientsTotal;
+        CheckState();
         DebugText();
+    }
+
+    private void CheckState()
+    {
+        if(jamsObtained == jam.Length)
+        {
+            endScreen.text = "Congratulations";
+            Time.timeScale = .8f;
+            Invoke("NextLevel", 5.0f);
+        }
+    }
+
+    private void NextLevel()
+    {
+        Time.timeScale = 1f;
+        Application.LoadLevel(0);
     }
 
     public void TreeImpact()

@@ -3,8 +3,7 @@ using System.Collections;
 
 public class Character : MonoBehaviour
 {
-    public float force = 200f; 
-
+    public float force = 200f;
     private Vector3 rot = new Vector3(0, 0, 0);
     private Rigidbody rb;   
 
@@ -13,7 +12,7 @@ public class Character : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Move(Input.GetAxis("Vertical"));
         rot.y = (transform.rotation.eulerAngles.y + Input.GetAxis("Horizontal"));
