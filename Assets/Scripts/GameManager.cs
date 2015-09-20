@@ -18,8 +18,14 @@ public class GameManager : MonoBehaviour {
     private int boostMax = 0;
     private int jamsObtained = 0;
 
+    public AudioSource globalSFX;
+    public AudioClip boost;
+    public AudioClip collectSound;
+
 	void Awake()
     {
+        Application.targetFrameRate = 60;
+
         if (instance == null)
             instance = this;
         else if (instance != this)
@@ -33,6 +39,7 @@ public class GameManager : MonoBehaviour {
     {
         jamsObtained++;
         ingridientsCounter.text = jamsObtained + "/" + ingridientsTotal;
+        globalSFX.PlayOneShot(collectSound);
         CheckState();
         DebugText();
     }

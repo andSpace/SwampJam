@@ -17,6 +17,8 @@ public class Movement : MonoBehaviour
     public int boostCapacity = 1000;
     public int currentBoostAmount = 0;
 
+    public AudioSource source;
+
 
     void Awake()
     {
@@ -60,6 +62,7 @@ public class Movement : MonoBehaviour
 
         if (Input.GetButtonDown("Boost") && currentBoostAmount == boostCapacity)
         {
+            source.Play();
             currentBoostAmount = 0;
             GameManager.instance.SetBoost(currentBoostAmount);
 
