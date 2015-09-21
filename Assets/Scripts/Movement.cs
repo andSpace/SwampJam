@@ -18,7 +18,9 @@ public class Movement : MonoBehaviour
     public int currentBoostAmount = 0;
 
     public AudioSource source;
-
+    public GameObject[] jarArray;
+    public AudioClip boostSound;
+    public AudioClip collisionSound;
 
     void Awake()
     {
@@ -28,6 +30,12 @@ public class Movement : MonoBehaviour
     void Start()
     {
         GameManager.instance.SetBoostMax(boostCapacity);
+        GameManager.instance.jarArray = jarArray;
+    }
+
+    void OnCollisionEnter()
+    {
+        source.PlayOneShot(collisionSound);
     }
 
     void Update()
@@ -62,7 +70,7 @@ public class Movement : MonoBehaviour
 
         if (Input.GetButtonDown("Boost") && currentBoostAmount == boostCapacity)
         {
-            source.Play();
+            source.PlayOneShot(boostSound);
             currentBoostAmount = 0;
             GameManager.instance.SetBoost(currentBoostAmount);
 

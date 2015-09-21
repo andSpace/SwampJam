@@ -19,10 +19,15 @@ public class GameManager : MonoBehaviour {
     private int jamsObtained = 0;
 
     public AudioSource globalSFX;
+    public AudioSource globalMusic;
     public AudioClip boost;
+    public AudioClip victory;
     public AudioClip collectSound;
+    public AudioClip itsCalledJazz;
+    
+    public GameObject[] jarArray;
 
-	void Awake()
+    void Awake()
     {
         Application.targetFrameRate = 60;
 
@@ -33,10 +38,20 @@ public class GameManager : MonoBehaviour {
 
         ingridientsCounter.text = jamsObtained + "/" + ingridientsTotal;
         DebugText();
-	}
+
+        globalMusic.loop = true;
+        globalMusic.clip = itsCalledJazz;
+        globalMusic.Play();
+    }
+
+    void Start()
+    {
+
+    }
 
     public void CollectJam()
     {
+        jarArray[jamsObtained].SetActive(true);
         jamsObtained++;
         ingridientsCounter.text = jamsObtained + "/" + ingridientsTotal;
         globalSFX.PlayOneShot(collectSound);
@@ -62,9 +77,11 @@ public class GameManager : MonoBehaviour {
 
     private void CheckState()
     {
-        if(jamsObtained == jam.Length)
+        if(jamsObtained == ingridientsTotal)
         {
-            endScreen.text = "Congratulations";
+            globalMusic.Pause();
+            globalSFX.PlayOneShot(victory);
+            endScreen.text = "Congratulations, you're still a boat.";
             Time.timeScale = .8f;
             Invoke("NextLevel", 5.0f);
         }

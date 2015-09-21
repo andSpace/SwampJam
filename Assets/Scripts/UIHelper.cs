@@ -4,9 +4,12 @@ using System.Collections;
 public class UIHelper : MonoBehaviour {
     public string level1;
 	// Use this for initialization
-	void Start () {
-	
-	}
+	void LateUpdate () {
+        if (Input.GetButtonDown("Boost"))
+        {
+            StartGame();
+        }
+    }
 
 
     public void QuitGame()
